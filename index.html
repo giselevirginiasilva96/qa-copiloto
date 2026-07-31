@@ -108,7 +108,16 @@
   .flow-node{
     background:var(--card); border:1px solid var(--line); border-radius:14px;
     padding:12px 18px; font-size:13.5px; font-weight:600; box-shadow:var(--shadow);
+    text-align:left;
   }
+  .flow-role{
+    display:block; font-size:10.5px; font-weight:800; text-transform:uppercase;
+    letter-spacing:.04em; margin-bottom:3px;
+  }
+  .flow-role.pm{ color:var(--amber); }
+  .flow-role.designer{ color:var(--pink); }
+  .flow-role.copiloto{ color:var(--violet); }
+  .flow-role.qa{ color:var(--teal); }
   .flow-arrow{ color:var(--violet); font-size:18px; }
 
   /* STEPPER */
@@ -237,7 +246,7 @@
 
   <section id="parceria">
     <h2 class="section-title">Uma parceria, não uma substituição</h2>
-    <p class="section-sub">O QA Copiloto organiza o raciocínio. O time fornece contexto e toma as decisões.</p>
+    <p class="section-sub">O QA Copiloto organiza o raciocínio. O time fornece contexto e toma as decisões — seja QA, Product Manager ou Designer.</p>
     <div class="partner-grid">
       <div class="partner-card time">
         <h3>👥 Responsabilidade do time</h3>
@@ -259,14 +268,21 @@
           <li>Auxiliar na estratégia de validação</li>
           <li>Criar documentação seguindo o padrão definido</li>
           <li>Revisar tecnicamente os Cases</li>
+          <li>Estruturar bugs identificados durante a análise</li>
+          <li>Estruturar débitos técnicos identificados durante a análise</li>
         </ul>
         <div class="not-list">
-          <p>✕ Não substitui o conhecimento do time</p>
-          <p>✕ Não toma decisões sozinho</p>
-          <p>✕ Não define prioridades de negócio</p>
+          <p>✕ Não substitui o Product Manager</p>
+          <p>✕ Não substitui o Designer</p>
+          <p>✕ Não substitui o QA</p>
+          <p>✕ Não inventa regras de negócio</p>
+          <p>✕ Não decide prioridades pelo time</p>
+          <p>✕ Não executa os testes</p>
+          <p>✕ Não registra evidências automaticamente</p>
         </div>
       </div>
     </div>
+    <div class="callout">⚠️ Sempre que houver conflito entre Story, Critérios de Aceite, Figma, documentação ou comentários, o QA Copiloto não assume um comportamento — ele pede esclarecimento ao time antes de continuar.</div>
   </section>
 
   <section id="perfil">
@@ -298,17 +314,19 @@
   </section>
 
   <section id="fluxo">
-    <h2 class="section-title">O fluxo de trabalho</h2>
-    <p class="section-sub">Pular etapas aumenta o risco de criar testes incompletos ou desnecessários.</p>
+    <h2 class="section-title">Onde o QA Copiloto atua no processo</h2>
+    <p class="section-sub">Pular etapas aumenta o risco de criar testes incompletos ou desnecessários. Cada nó mostra quem é o responsável por aquele momento.</p>
     <div class="flow">
-      <div class="flow-node">Entender a necessidade</div><span class="flow-arrow">→</span>
-      <div class="flow-node">Analisar a funcionalidade</div><span class="flow-arrow">→</span>
-      <div class="flow-node">Identificar regras, riscos e impactos</div><span class="flow-arrow">→</span>
-      <div class="flow-node">Definir estratégia</div><span class="flow-arrow">→</span>
-      <div class="flow-node">Criar Cases</div><span class="flow-arrow">→</span>
-      <div class="flow-node">Revisar documentação</div><span class="flow-arrow">→</span>
-      <div class="flow-node">Executar testes</div><span class="flow-arrow">→</span>
-      <div class="flow-node">Registrar evidências</div>
+      <div class="flow-node"><span class="flow-role pm">Product Manager</span>Escreve a Story</div><span class="flow-arrow">→</span>
+      <div class="flow-node"><span class="flow-role designer">Designer</span>Cria ou atualiza o Figma</div><span class="flow-arrow">→</span>
+      <div class="flow-node"><span class="flow-role copiloto">QA Copiloto</span>Entende a necessidade</div><span class="flow-arrow">→</span>
+      <div class="flow-node"><span class="flow-role copiloto">QA Copiloto</span>Analisa a funcionalidade</div><span class="flow-arrow">→</span>
+      <div class="flow-node"><span class="flow-role copiloto">QA Copiloto</span>Identifica regras, riscos e impactos</div><span class="flow-arrow">→</span>
+      <div class="flow-node"><span class="flow-role copiloto">QA Copiloto</span>Define a estratégia</div><span class="flow-arrow">→</span>
+      <div class="flow-node"><span class="flow-role copiloto">QA Copiloto</span>Cria os Cases</div><span class="flow-arrow">→</span>
+      <div class="flow-node"><span class="flow-role copiloto">QA Copiloto</span>Revisa a documentação</div><span class="flow-arrow">→</span>
+      <div class="flow-node"><span class="flow-role qa">QA</span>Executa os testes</div><span class="flow-arrow">→</span>
+      <div class="flow-node"><span class="flow-role qa">QA</span>Registra as evidências</div>
     </div>
   </section>
 
@@ -423,10 +441,16 @@ const steps = [
     title: "Inicie sempre pela análise funcional",
     objective: "Entender o problema antes de pensar em testes.",
     body: `
-      <p>O primeiro passo <strong>não</strong> deve ser solicitar diretamente "Crie Cases de Teste dessa Story." Antes, peça a análise funcional.</p>
       <div class="callout good">"Analise esta funcionalidade seguindo o fluxo do QA Copiloto. Não crie Cases de Teste ainda."</div>
-      <p>Essa etapa permite que a IA compreenda: qual problema está sendo resolvido, como funciona atualmente, qual comportamento esperado, quais regras precisam ser protegidas e quais riscos existem.</p>
-      <p>Uma Story explica <em>o que</em> precisa ser desenvolvido. A análise funcional ajuda a entender <em>o que</em> precisa ser validado.</p>
+      <p><strong>📥 O que fornecer:</strong> por enquanto, nada além do pedido acima — essa etapa serve só para direcionar o Copiloto.</p>
+      <p><strong>🤖 O que o QA Copiloto faz:</strong></p>
+      <ul>
+        <li>Entende qual problema está sendo resolvido</li>
+        <li>Entende como a funcionalidade funciona hoje</li>
+        <li>Identifica o comportamento esperado</li>
+        <li>Aponta regras a proteger e riscos existentes</li>
+      </ul>
+      <p><strong>📤 Resultado esperado:</strong> uma análise funcional da demanda — a base para todo o restante do processo.</p>
     `
   },
   {
@@ -434,11 +458,18 @@ const steps = [
     title: "Compartilhe a Story da funcionalidade",
     objective: "Fornecer todas as informações disponíveis sobre a demanda.",
     body: `
-      <p>Podem ser compartilhados: História de Usuário, Critérios de Aceite, descrição da funcionalidade, regras de negócio, comentários da Story e decisões tomadas pelo time.</p>
+      <p><strong>📥 O que fornecer:</strong></p>
       <ul>
-        <li><strong>Compartilhar o link da Story</strong> — quando houver integração com a ferramenta do time (ClickUp, Jira, ferramentas internas).</li>
-        <li><strong>Copiar e colar a Story</strong> — recomendado quando existem informações adicionais fora da Story, decisões em comentários ou detalhes espalhados em outros locais.</li>
+        <li>História de Usuário e Critérios de Aceite</li>
+        <li>Descrição da funcionalidade e regras de negócio</li>
+        <li>Comentários e decisões tomadas na Story</li>
       </ul>
+      <p><strong>🤖 O que o QA Copiloto faz:</strong></p>
+      <ul>
+        <li><strong>Link da Story</strong> — quando há integração com a ferramenta do time (ClickUp, Jira etc.)</li>
+        <li><strong>Copiar e colar</strong> — recomendado quando há informações extras fora da Story ou decisões em comentários</li>
+      </ul>
+      <p><strong>📤 Resultado esperado:</strong> o contexto completo da demanda, pronto para a análise funcional.</p>
     `
   },
   {
@@ -446,9 +477,10 @@ const steps = [
     title: "Compartilhe materiais complementares",
     objective: "Esclarecer comportamento e interação além do texto da Story.",
     body: `
-      <p>Sempre que existir, envie também: Figma, protótipos navegáveis, wireframes, fluxos, prints e documentos complementares.</p>
-      <p>Esses materiais ajudam a compreender comportamento esperado, interação do usuário, estrutura da tela, mensagens, estados visuais e componentes envolvidos.</p>
+      <p><strong>📥 O que fornecer:</strong> Figma, protótipos navegáveis, wireframes, fluxos, prints e documentos complementares — sempre que existirem.</p>
+      <p><strong>🤖 O que o QA Copiloto faz:</strong> usa esses materiais para entender comportamento esperado, interação do usuário, estrutura da tela, mensagens, estados visuais e componentes envolvidos.</p>
       <div class="callout">Ex: a Story diz "Adicionar um novo campo no modal." O Figma esclarece onde o campo aparece, qual o nome, o comportamento visual e como será apresentado ao usuário.</div>
+      <p><strong>📤 Resultado esperado:</strong> menos ambiguidade na análise e Cases mais fiéis à experiência real.</p>
     `
   },
   {
@@ -456,8 +488,9 @@ const steps = [
     title: "Informe o objetivo da validação",
     objective: "Definir o foco da rodada — a mesma funcionalidade pode ter estratégias diferentes.",
     body: `
-      <p>Antes da criação dos Cases, informe se o foco é: comportamento funcional, experiência do usuário (UX/UI), regressão, smoke test, sanity test ou teste exploratório.</p>
-      <p>Veja a seção "Tipos de objetivo de validação" mais abaixo nesta página para o detalhe de cada um.</p>
+      <p><strong>📥 O que fornecer:</strong> o foco da rodada — comportamento funcional, experiência do usuário (UX/UI), regressão, smoke test, sanity test ou teste exploratório.</p>
+      <p><strong>🤖 O que o QA Copiloto faz:</strong> ajusta a profundidade e o tipo de cobertura de acordo com o objetivo informado. Veja a seção "Tipos de objetivo de validação" mais abaixo para o detalhe de cada um.</p>
+      <p><strong>📤 Resultado esperado:</strong> Cases alinhados ao que realmente precisa ser validado nessa rodada.</p>
     `
   },
   {
@@ -465,6 +498,7 @@ const steps = [
     title: "Defina o escopo",
     objective: "Deixar claro o que deve — e o que não deve — ser validado.",
     body: `
+      <p><strong>📥 O que fornecer:</strong></p>
       <div class="callout">
 Escopo:
 - Validar tela de visualização da despesa.
@@ -477,7 +511,8 @@ Fora do escopo:
 - APIs.
 - Implementação técnica.
       </div>
-      <p>Essa definição ajuda o QA Copiloto a não transformar detalhes técnicos em testes funcionais.</p>
+      <p><strong>🤖 O que o QA Copiloto faz:</strong> usa essa definição para não transformar detalhes técnicos em testes funcionais.</p>
+      <p><strong>📤 Resultado esperado:</strong> Cases focados, sem cobertura desnecessária.</p>
     `
   },
   {
@@ -486,9 +521,10 @@ Fora do escopo:
     objective: "Filtrar o que realmente precisa virar Case de Teste.",
     body: `
       <p>Uma Story pode conter tabelas, serviços, arquitetura, estrutura de código e decisões técnicas. São importantes para entendimento, mas não geram Cases automaticamente.</p>
-      <p>Antes de criar um teste, avalie: <strong>isso impacta o comportamento do usuário ou uma regra de negócio?</strong></p>
+      <p><strong>🤖 O que o QA Copiloto faz:</strong> antes de criar um teste, avalia se aquilo impacta o comportamento do usuário ou uma regra de negócio.</p>
       <div class="callout good">Se sim → pode ser validado.</div>
       <div class="callout bad">Se não → provavelmente pertence ao contexto técnico.</div>
+      <p><strong>📤 Resultado esperado:</strong> Cases relevantes para o usuário, sem virar teste técnico ou unitário.</p>
     `
   },
   {
@@ -496,9 +532,10 @@ Fora do escopo:
     title: "Definição da estratégia de testes",
     objective: "Priorizar riscos e fluxos antes de escrever qualquer Case.",
     body: `
-      <p>Após a análise funcional, solicite:</p>
+      <p><strong>📥 O que fornecer:</strong> após a análise funcional, solicite:</p>
       <div class="callout good">"Com base nessa análise, defina a estratégia de testes."</div>
-      <p>Nesta etapa, o QA Copiloto deve identificar quais comportamentos precisam de cobertura, quais riscos devem ser priorizados, quais fluxos precisam ser validados e quais regressões são importantes. Ainda não é o momento de criar Cases.</p>
+      <p><strong>🤖 O que o QA Copiloto faz:</strong> identifica quais comportamentos precisam de cobertura, quais riscos devem ser priorizados, quais fluxos precisam ser validados e quais regressões são importantes. Ainda não é o momento de criar Cases.</p>
+      <p><strong>📤 Resultado esperado:</strong> uma estratégia de validação priorizada por risco.</p>
     `
   },
   {
@@ -506,9 +543,10 @@ Fora do escopo:
     title: "Construção dos Cases de Teste",
     objective: "Criar a cobertura correta — não a maior quantidade possível.",
     body: `
-      <p>Somente após a estratégia definida, solicite:</p>
+      <p><strong>📥 O que fornecer:</strong> somente após a estratégia definida, solicite:</p>
       <div class="callout good">"Agora crie os Cases de Teste seguindo o Guia Oficial de Escrita."</div>
-      <p>Os Cases devem representar comportamentos importantes, evitar redundâncias, cobrir regras críticas, ser executáveis por outro QA e ter objetivo claro.</p>
+      <p><strong>🤖 O que o QA Copiloto faz:</strong> constrói Cases que representam comportamentos importantes, evitam redundâncias, cobrem regras críticas e são executáveis por outro QA.</p>
+      <p><strong>📤 Resultado esperado:</strong> Cases com objetivo claro, prontos para revisão técnica.</p>
     `
   },
   {
@@ -516,8 +554,9 @@ Fora do escopo:
     title: "Criação da task de testes no ClickUp",
     objective: "Vincular a validação à Story de origem.",
     body: `
-      <p>Após a definição dos Cases, deve ser criada a subtask de QA vinculada à Story — manualmente ou com apoio do QA Copiloto.</p>
-      <p>Se solicitar ao QA Copiloto, informe: link da Story principal, link da subtask (se existir), padrão esperado da task, objetivo da validação, escopo e Cases definidos. Quanto mais contexto, mais alinhada será a sugestão.</p>
+      <p><strong>📥 O que fornecer</strong> (se pedir apoio ao QA Copiloto): link da Story principal, link da subtask (se existir), padrão esperado da task, objetivo da validação, escopo e Cases definidos.</p>
+      <p><strong>🤖 O que o QA Copiloto faz:</strong> sugere a estrutura da subtask de QA com base no contexto fornecido. Quanto mais completo o contexto, mais alinhada a sugestão.</p>
+      <p><strong>📤 Resultado esperado:</strong> subtask de QA criada e vinculada à Story — manualmente ou com apoio do Copiloto.</p>
     `
   },
   {
@@ -525,12 +564,14 @@ Fora do escopo:
     title: "Registro das evidências",
     objective: "Manter rastreabilidade entre Story, validação e evidências.",
     body: `
-      <p>Formato recomendado:</p>
+      <p>Esta etapa é responsabilidade do QA — o QA Copiloto não executa testes nem registra evidências automaticamente.</p>
+      <p><strong>🤖 O que o QA faz:</strong></p>
       <ul>
-        <li>Criar uma pasta no Google Drive para a validação.</li>
-        <li>Organizar as evidências: prints, vídeos, documentos e arquivos necessários.</li>
-        <li>Adicionar o link da pasta nos comentários da task de testes no ClickUp.</li>
+        <li>Cria uma pasta no Google Drive para a validação</li>
+        <li>Organiza as evidências: prints, vídeos, documentos e arquivos necessários</li>
+        <li>Adiciona o link da pasta nos comentários da task de testes no ClickUp</li>
       </ul>
+      <p><strong>📤 Resultado esperado:</strong> rastreabilidade completa entre a Story, a estratégia e as evidências da validação.</p>
     `
   }
 ];
